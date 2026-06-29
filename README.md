@@ -1,6 +1,6 @@
 # Hybrid Machine Learning for Phishing Detection in Emails
 
-A BSc dissertation project investigating the effectiveness of **hybrid machine
+A BSc artefact project investigating the effectiveness of **hybrid machine
 learning techniques** — combining semantic language-model analysis with anomaly
 detection — for identifying and flagging suspicious phishing content in emails.
 
@@ -51,23 +51,6 @@ phishing-detection-hybrid/
 
 ---
 
-## Setup
-
-```bash
-# 1. Clone the repository
-git clone <your-repo-url>
-cd phishing-detection-hybrid
-
-# 2. Create and activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-```
-
----
-
 ## Reproducing the data preparation
 
 Raw data is not distributed with this repository (see `data/README.md`). With the
@@ -86,8 +69,7 @@ python src/preprocessing/preprocess_joint_corpus.py \
 ```
 
 Every pipeline emits a JSON readiness report (in `reports/readiness/`) recording
-all transformations, exclusions, and final distributions — the reproducibility
-record for the dissertation (goal G10).
+all transformations, exclusions, and final distributions.
 
 ---
 
@@ -106,7 +88,6 @@ record for the dissertation (goal G10).
 
 ## Ethics and responsible use
 
-This project is **defensive research only**. Raw email data is never published,
-trained model weights are deliberately withheld (dual-use), and the repository is
-private until assessment. See `NOTICE` and `docs/` for the full LSEPI, ethics,
+This project is **protective research only**. Raw email data is never published,
+trained model weights are deliberately withheld to prevent dual-use. See `NOTICE` and `docs/` for the full LSEPI, ethics,
 and data-protection documentation.
