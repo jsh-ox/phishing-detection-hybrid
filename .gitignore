@@ -1,5 +1,5 @@
 # ============================================================
-# DATA POLICY (see data/README.md for the full rationale)
+# DATA POLICY (see data/README.md for the full detail)
 # ------------------------------------------------------------
 # Raw datasets are NEVER committed. Processed artefacts that
 # contain email body text are also excluded, because they still
