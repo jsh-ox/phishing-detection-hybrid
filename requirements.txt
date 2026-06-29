@@ -3,12 +3,12 @@
 #
 # Dependencies will be added over the course of the model build phase:
 
-#pandas==3.0.2
-#numpy==2.4.4
-#scikit-learn==1.8.0
-#pyarrow==24.0.0
-#openpyxl==3.1.5
-#joblib==1.5.3
+# pandas==3.0.2
+# numpy==2.4.4
+# scikit-learn==1.8.0
+# pyarrow==24.0.0
+# openpyxl==3.1.5
+# joblib==1.5.3
 
 # Other Planned:
 # presidio-analyzer==2.2.355   # PII NER second pass
