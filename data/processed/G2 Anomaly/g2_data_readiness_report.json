@@ -1,0 +1,38 @@
+{
+  "source_file": "Prasad.csv",
+  "processed_at_utc": "2026-06-24T12:58:03.871759+00:00",
+  "random_seed": 42,
+  "design_notes": {
+    "feature_scope": "URL-string-derived features only",
+    "excluded": "webpage-content features (unavailable at joint evaluation)",
+    "dropped_leak": "URLSimilarityIndex (near-perfect label proxy)"
+  },
+  "steps": {
+    "loaded_rows": 235795,
+    "selected_features": 18,
+    "removed_null_rows": 0,
+    "removed_duplicate_rows": 425,
+    "dedup_key": "raw URL string",
+    "removed_zero_variance": [],
+    "split_sizes": {
+      "train": 188296,
+      "val": 23537,
+      "test": 23537
+    },
+    "legit_only_train_rows": 80416,
+    "class_distribution": {
+      "train": {
+        "0": 80416,
+        "1": 107880
+      },
+      "val": {
+        "0": 10052,
+        "1": 13485
+      },
+      "test": {
+        "0": 10052,
+        "1": 13485
+      }
+    }
+  }
+}

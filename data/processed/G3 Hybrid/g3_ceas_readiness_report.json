@@ -1,0 +1,17 @@
+{
+  "source_file": "CEAS_08.csv",
+  "processed_at_utc": "2026-06-24T13:07:15.396514+00:00",
+  "scaler_used": "standard_scaler.pkl",
+  "feature_parity_note": "URL features via reimplemented PhiUSIIL extractor (~95% parity)",
+  "steps": {
+    "loaded_emails": 39154,
+    "total_urls_extracted": 133078,
+    "null_url_emails": 12461,
+    "class_distribution": {
+      "1": 21842,
+      "0": 17312
+    },
+    "url_presence_rate": 0.6817,
+    "avg_urls_per_email": 3.4
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "combined_at_utc": "2026-06-22T12:16:18.316063+00:00",
+  "sources": {
+    "Chakraborty_S": 18650,
+    "Kuladeep": 10000,
+    "Engineering_Informatica_Spa": 624
+  },
+  "random_seed": 42,
+  "steps": {
+    "loaded_rows": 29274,
+    "removed_null_bodies": 16,
+    "removed_length_outliers": 568,
+    "removed_post_clean_empty": 0,
+    "removed_cross_source_duplicates": 642,
+    "pii_redaction_counts": {
+      "<EMAIL>": 5298,
+      "<PHONE>": 1776,
+      "<SSN>": 1,
+      "<CARD>": 782,
+      "<URL>": 9969
+    },
+    "class_distribution": {
+      "safe_0": 15081,
+      "phishing_1": 12967,
+      "majority_fraction": 0.5377,
+      "smote_recommended": false
+    },
+    "final_rows": 28048,
+    "pii_second_pass_planned": "Microsoft Presidio NER for free-text names - not yet applied"
+  }
+}

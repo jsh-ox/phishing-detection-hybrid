@@ -1,0 +1,26 @@
+{
+  "features": [
+    "URLLength",
+    "DomainLength",
+    "IsDomainIP",
+    "TLDLength",
+    "NoOfSubDomain",
+    "HasObfuscation",
+    "NoOfObfuscatedChar",
+    "ObfuscationRatio",
+    "NoOfLettersInURL",
+    "LetterRatioInURL",
+    "NoOfDegitsInURL",
+    "DegitRatioInURL",
+    "NoOfEqualsInURL",
+    "NoOfQMarkInURL",
+    "NoOfAmpersandInURL",
+    "NoOfOtherSpecialCharsInURL",
+    "SpacialCharRatioInURL",
+    "IsHTTPS",
+    "CharContinuationRate",
+    "TLDLegitimateProb",
+    "URLCharProb"
+  ],
+  "label": "label"
+}
