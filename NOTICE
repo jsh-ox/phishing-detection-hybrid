@@ -1,6 +1,6 @@
 Copyright (c) 2026. All rights reserved.
 
-This repository accompanies an undergraduate (BSc) dissertation investigating
+This repository accompanies an undergraduate (BSc) investigating
 hybrid machine learning techniques for phishing detection in emails.
 
 No licence is granted. All rights are reserved by the author. This code and
@@ -10,7 +10,7 @@ purpose without the express written permission of the author.
 
 DUAL-USE NOTICE
 ---------------
-This project concerns the DETECTION of phishing content for defensive,
+This project concerns the DETECTION of phishing content for protective,
 research purposes only. Trained model weights are deliberately NOT published.
 The materials must not be repurposed to create, optimise, or evade phishing
 or other malicious content. See docs/ for the project's LSEPI and ethics
