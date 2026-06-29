@@ -1,9 +1,8 @@
 {
   "combined_at_utc": "2026-06-22T12:16:18.316063+00:00",
   "sources": {
-    "Chakraborty_S": 18650,
-    "Kuladeep": 10000,
-    "Engineering_Informatica_Spa": 624
+    "Chakraborty_S": 17421,
+    "Engineering_Informatica_Spa": 609
   },
   "random_seed": 42,
   "steps": {
@@ -20,12 +19,19 @@
       "<URL>": 9969
     },
     "class_distribution": {
-      "safe_0": 15081,
-      "phishing_1": 12967,
-      "majority_fraction": 0.5377,
+      "safe_0": 11114,
+      "phishing_1": 6916,
+      "majority_fraction": 0.6164,
       "smote_recommended": false
     },
-    "final_rows": 28048,
+    "final_rows": 18030,
     "pii_second_pass_planned": "Microsoft Presidio NER for free-text names - not yet applied"
+  },
+  "revision": {
+    "revised_at_utc": "2026-06-29T09:58:10.506543+00:00",
+    "change": "Excluded Kuladeep source (synthetically generated content) to strengthen generalisation to real-world email.",
+    "rows_before": 27986,
+    "rows_after": 18030,
+    "rows_removed": 9956
   }
 }
