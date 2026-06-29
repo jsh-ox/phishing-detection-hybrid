@@ -1,17 +1,16 @@
-# Core data preparation dependencies (pinned for reproducibility — G10)
+# Core dependencies
 # Install with:  pip install -r requirements.txt
 #
-# NOTE: model-training dependencies (transformers, torch / tensorflow) will be
-# added here when the model-build phase begins, pinned at that time.
+# Dependencies will be added over the course of the model build phase:
 
-pandas==3.0.2
-numpy==2.4.4
-scikit-learn==1.8.0
-pyarrow==24.0.0
-openpyxl==3.1.5
-joblib==1.5.3
+#pandas==3.0.2
+#numpy==2.4.4
+#scikit-learn==1.8.0
+#pyarrow==24.0.0
+#openpyxl==3.1.5
+#joblib==1.5.3
 
-# Planned (uncomment when the relevant phase starts):
+# Other Planned:
 # presidio-analyzer==2.2.355   # PII NER second pass
 # presidio-anonymizer==2.2.355
 # transformers==4.46.0         # semantic layer (BERT / RoBERTa / SBERT)
