@@ -31,15 +31,13 @@ in `data/raw/` before running the preprocessing scripts.
 | Dataset | Role | Source |
 |---------|------|--------|
 | Chakraborty_S | Semantic training (G1) | _Chakraborty, S. (2023) Phishing Email Detection [Online]. Available at https://www.kaggle.com/datasets/subhajournal/phishingemails (Accessed 30 March 2026)._ |
-| Kuladeep | Semantic training (G1) | _record source + access date_ |
-| Engineering_Informatica_Spa | Semantic training (G1) | _record source + access date_ |
-| PhiUSIIL (Prasad) | Anomaly training (G2) | UCI ML Repository (CC BY 4.0) |
-| CEAS 2008 | Joint evaluation (G3) | _record source + access date_ |
-| TREC 2007 | Secondary evaluation (G3) | _record source + access date_ |
+| Engineering_Informatica_Spa | Semantic training (G1) | _Engineering Ingegneria Informatica Spa (2025) ‘Multiclass NLP Dataset for Phishing and Social Engineering Threat Detection’, Zenodo [Online]. DOI: https://doi.org/10.5281/zenodo.15235123 (Accessed 30 March 2026)._ |
+| PhiUSIIL | Anomaly training (G2) | _Prasad, A. and Chandra, S. (2024) ‘PhiUSIIL Phishing URL (Website)’, UCI Machine Learning Repository [Online]. DOI: https://doi.org/10.1016/j.cose.2023.103545 (Accessed 30 April 2026)._ |
+| CEAS 2008 | Joint evaluation (G3) | _CEAS (2008) Conference on Email and Anti-Spam 2008 [Online]. Available at https://www.ceas.cc/ (Accessed 29 June 2026). rokibulroni (2025) GitHub - rokibulroni/Phishing-Email-Dataset [Online]. Available at https://github.com/rokibulroni/Phishing-Email-Dataset (Accessed 28 April 2026)._ |
 
 ## Regenerating processed artefacts
 
-From the repository root, with raw data in `data/raw/`:
+From the repository root, with supplimented raw data in `data/raw/`:
 
 ```bash
 # G1 — semantic corpus
