@@ -7,7 +7,7 @@ excluded from version control** — see the policy below and the root `.gitignor
 
 ```
 data/
-├── raw/         # Raw datasets — NEVER committed. Obtain from sources below.
+├── raw/         # Raw datasets — gitignored. Obtain from sources below.
 └── processed/   # Processed artefacts. Only NUMERICAL, non-email-content
                  # files are version-controlled (scaler, feature schema).
 ```
