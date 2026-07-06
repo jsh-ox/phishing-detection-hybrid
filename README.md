@@ -35,13 +35,13 @@ phishing-detection-hybrid/
 ├── requirements.txt        # Pinned dependencies
 ├── .gitignore              # Data policy enforced here
 ├── data/
-│   ├── raw/                # Raw datasets (gitignored — obtain from source)
+│   ├── raw/                # Raw datasets (gitignored — see separate README)
 │   ├── processed/          # Numerical artefacts only (scaler, schema)
 │   └── README.md           # Data policy + sources + regeneration steps
 ├── src/
 │   ├── preprocessing/      # Corpus preparation pipelines (G1–G3)
-│   ├── models/             # Semantic, anomaly, fusion models (in progress)
-│   └── evaluation/         # Benchmarking + comparison matrix (in progress)
+│   ├── models/             # Semantic, anomaly, fusion models
+│   └── evaluation/         # Benchmarking + comparison matrix
 ├── reports/
 │   └── readiness/          # JSON data-readiness reports (per corpus)
 ├── docs/                   # Summaries, LSEPI/ethics, design documentation
@@ -77,7 +77,7 @@ all transformations, exclusions, and final distributions.
 
 | Phase | Status |
 |-------|--------|
-| Data preparation (G1–G3) | Complete (Presidio NER pass pending) |
+| Data preparation (G1–G3) | Complete |
 | Semantic layer (G4) | Not started |
 | Anomaly layer (G5) | Not started |
 | Fusion layer (G6) | Not started |
