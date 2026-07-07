@@ -78,8 +78,8 @@ all transformations, exclusions, and final distributions.
 | Phase | Status |
 |-------|--------|
 | Data preparation (G1–G3) | Complete |
-| Semantic layer (G4) | Not started |
-| Anomaly layer (G5) | Not started |
+| Semantic layer (G4) | In-progress |
+| Anomaly layer (G5) | In-progress |
 | Fusion layer (G6) | Not started |
 | Evaluation (G7–G9) | Not started |
 | Documentation (G10–G11) | Ongoing |
