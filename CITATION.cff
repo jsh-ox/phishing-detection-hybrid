@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use or refer to this work, please use the provided citation."
+
+
+title: "Hybrid Machine Learning for Phishing Detection in Emails"
+
+type: software
+
+abstract: "To what extent are hybrid machine learning techniques — combining semantic language model analysis with anomaly detection — effective in identifying and flagging suspicious phishing content in emails?"
+
+authors:
+  - family-names: "Oxley"
+    given-names: "Joshua"
+    affiliation: "The Open University"
+
+date-released: "2026-07-07"
+
+repository-code: "https://github.com/jsh-ox/phishing-detection-hybrid"
+
