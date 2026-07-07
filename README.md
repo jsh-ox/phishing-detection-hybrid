@@ -14,14 +14,14 @@ detection — for identifying and flagging suspicious phishing content in emails
 
 The system is a four-stage hybrid pipeline:
 
-1. **Preprocessing** — shared cleaning, redaction, and feature extraction.
-2. **Semantic layer** — BERT, RoBERTa, and Sentence-BERT analyse email body text.
-3. **Anomaly layer** — Isolation Forest, a feedforward Autoencoder, and an LSTM
+1. **Preprocessing** - shared cleaning, redaction, and feature extraction.
+2. **Semantic layer** - BERT, RoBERTa, and Sentence-BERT analyse email body text.
+3. **Anomaly layer** - Isolation Forest, a feedforward Autoencoder, and an LSTM
    Autoencoder score URL features.
-4. **Fusion layer** — combines both signals into a single classification
+4. **Fusion layer** - combines both signals into a single classification
    (phishing / suspicious / legitimate).
 
-The nine semantic × anomaly combinations form a 3 × 3 experimental matrix, each
+The nine semantic × anomaly combinations form a 3 × 3 matrix, each
 evaluated against individual-model and traditional baselines.
 
 ---
@@ -44,7 +44,7 @@ phishing-detection-hybrid/
 │   └── evaluation/         # Benchmarking + comparison matrix
 ├── reports/
 │   └── readiness/          # JSON data-readiness reports (per corpus)
-├── docs/                   # Summaries, LSEPI/ethics, design documentation
+├── docs/                   # Summaries, LSEPI/ethics, designs and documentation
 ├── notebooks/              # Exploration + evaluation notebooks
 └── results/                # Metrics, figures, comparison matrices
 ```
