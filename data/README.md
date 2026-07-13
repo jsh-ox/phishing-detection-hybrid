@@ -44,9 +44,12 @@ From the repository root, with supplimented raw data in `data/raw/`:
 python src/preprocessing/preprocess_semantic_corpus.py data/raw/<file>.csv data/processed/
 
 # G2 — anomaly corpus
-python src/preprocessing/preprocess_anomaly_corpus.py data/raw/Prasad.csv data/processed/
+python src/preprocessing/preprocess_anomaly_corpus.py data/raw/<file>.csv data/processed/
+
+#G2 — LSTM Autoencoder
+python src/preprocessing/prepare_url_sequences.py data/raw/<file>.csv data/processed/
 
 # G3 — joint evaluation corpus
 python src/preprocessing/preprocess_joint_corpus.py \
-    data/raw/CEAS_08.csv data/processed/standard_scaler.pkl data/processed/ --name ceas
+    data/raw/<file>.csv data/processed/standard_scaler.pkl data/processed/ --name ceas
 ```
