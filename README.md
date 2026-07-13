@@ -56,17 +56,7 @@ phishing-detection-hybrid/
 Raw data is not distributed with this repository (see `data/README.md`). With the
 raw datasets in `data/raw/`:
 
-```bash
-# G1 — semantic training corpus (email body text)
-python src/preprocessing/preprocess_semantic_corpus.py data/raw/<file>.csv data/processed/
-
-# G2 — anomaly training corpus (URL features)
-python src/preprocessing/preprocess_anomaly_corpus.py data/raw/<file..csv data/processed/
-
-# G3 — joint evaluation corpus (body text + URLs)
-python src/preprocessing/preprocess_joint_corpus.py \
-    data/raw/<file>.csv data/processed/standard_scaler.pkl data/processed/ --name <name>
-```
+Preparation script can be found in the `data/processed`, for full detail see the separate `README`.
 
 Every pipeline emits a JSON readiness report (in `reports/readiness/`) recording
 all transformations, exclusions, and final distributions.
@@ -79,7 +69,7 @@ all transformations, exclusions, and final distributions.
 |-------|--------|
 | Data preparation (G1–G3) | Complete |
 | Semantic layer (G4) | In-progress |
-| Anomaly layer (G5) | In-progress |
+| Anomaly layer (G5) | Second Iteration |
 | Fusion layer (G6) | Not started |
 | Evaluation (G7–G9) | Not started |
 | Documentation (G10–G11) | Ongoing |
