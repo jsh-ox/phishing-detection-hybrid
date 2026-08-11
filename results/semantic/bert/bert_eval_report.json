@@ -1,0 +1,29 @@
+{
+  "model": "bert-base-cased",
+  "trained_at_utc": "2026-08-04T12:04:08.580415+00:00",
+  "seed": 42,
+  "config": {
+    "max_length": 512,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "effective_batch": 16,
+    "learning_rate": 2e-05,
+    "epochs": 4,
+    "fp16": true
+  },
+  "test_metrics": {
+    "accuracy": 0.9911,
+    "precision": 0.9898,
+    "recall": 0.9869,
+    "f1": 0.9884,
+    "auc_roc": 0.9995,
+    "auc_pr": 0.9991,
+    "false_positive_rate": 0.0063,
+    "confusion_matrix": {
+      "tn": 1101,
+      "fp": 7,
+      "fn": 9,
+      "tp": 680
+    }
+  }
+}
