@@ -10,19 +10,23 @@ import pandas as pd
 import joblib
 from tensorflow import keras
 import re
+from sklearn.metrics import roc_auc_score, average_precision_score
 
 
-G3_DIR   = Path("data/processed/G3 Hybrid")
+G3_DIR = Path("data/processed/G3 Hybrid")
 URL_PATH = G3_DIR / "joint_eval_ceas_urls.parquet"
 TEXT_PATH = G3_DIR / "joint_eval_ceas_text_redacted.parquet"
 
 ANOM_DIR = Path("results/anomaly")
-OUT_DIR  = Path("results/hybrid/g3_scores")
+OUT_DIR = Path("results/hybrid/g3_scores")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-url_df  = pd.read_parquet(URL_PATH)
+url_df = pd.read_parquet(URL_PATH)
 text_df = pd.read_parquet(TEXT_PATH)
+# Force text_df email_id to int
+text_df["email_id"] = text_df["email_id"].astype(int)
 text_df["label"] = text_df["label"].astype(int)
+print("text_df email_id dtype:", text_df["email_id"].dtype)
 
 FEATURES = ['URLLength','DomainLength','IsDomainIP','TLDLength','NoOfSubDomain',
     'HasObfuscation','NoOfObfuscatedChar','ObfuscationRatio','NoOfLettersInURL',
@@ -49,26 +53,28 @@ print("Per-URL scores computed for Isolation Forest and feedforward AE.")
 print(url_df[["iso_score","ff_score"]].describe().round(4))
 
 # %% Aggregate per email: MAX over each email's URLs (most suspicious link)
-# Null-URL rows carry neutral feature values; we handle them explicitly so a
-# missing URL doesn't count as "maximally suspicious".
 real = url_df[~url_df["is_null_url"]]
 null_ids = set(url_df[url_df["is_null_url"]]["email_id"]) - set(real["email_id"])
 
-def aggregate(score_col):
-    agg = real.groupby("email_id")[score_col].max()
-    # emails with only null URLs -> neutral: use the median legit score as a
-    # non-anomalous baseline (documented convention)
-    neutral = real[score_col].median()
+def aggregate(col):
+    agg = real.groupby("email_id")[col].max()
+    # emails with only null URLs -> neutral
+    neutral = real[col].median()
     for eid in null_ids:
         agg.loc[eid] = neutral
-    return agg
+    return agg.reset_index() 
 
-anom = pd.DataFrame({"email_id": text_df["email_id"].values,
-                     "label": text_df["label"].values}).set_index("email_id")
-anom["iso"] = aggregate("iso_score")
-anom["ff"]  = aggregate("ff_score")
-anom = anom.reset_index()
-print("Aggregated to", len(anom), "emails")
+anom = text_df[["email_id", "label"]].copy()
+print("anom email_id dtype:", anom["email_id"].dtype)
+
+iso_agg = aggregate("iso_score").rename(columns={"iso_score": "iso"})
+ff_agg = aggregate("ff_score").rename(columns={"ff_score": "ff"})
+
+anom = anom.merge(iso_agg, on="email_id", how="left")
+anom = anom.merge(ff_agg,  on="email_id", how="left")
+
+print("non-null iso:", anom["iso"].notna().sum(), "/", len(anom))
+print("non-null ff :", anom["ff"].notna().sum(), "/", len(anom))
 print(anom[["iso","ff"]].describe().round(4))
 
 # --- LSTM autoencoder ---
@@ -130,6 +136,10 @@ anom.to_parquet(OUT_DIR / "anomaly_scores_ceas.parquet", index=False)
 print("Saved complete anomaly scores:", anom.shape)
 
 
-
-
-
+# How do the anomaly models perform on G3 Hybrid data individually?
+y = anom["label"].astype(int).values
+print("Anomaly models on G3 CEAS (individual):")
+print(f"{'model':<8}{'AUC-ROC':>10}{'AUC-PR':>9}")
+for m in ["iso", "ff", "lstm"]:
+    s = anom[m].values
+    print(f"{m:<8}{roc_auc_score(y, s):>10.4f}{average_precision_score(y, s):>9.4f}")
