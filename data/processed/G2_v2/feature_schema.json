@@ -1,0 +1,31 @@
+{
+  "features": [
+    "url_entropy",
+    "domain_entropy",
+    "vowel_ratio",
+    "consonant_run_max",
+    "digit_run_max",
+    "char_class_transitions",
+    "char_class_transition_ratio",
+    "suspicious_keyword_count",
+    "has_suspicious_keyword",
+    "brand_in_path_not_domain",
+    "hyphen_count_domain",
+    "digit_ratio_domain",
+    "subdomain_depth",
+    "path_depth",
+    "is_ip_host",
+    "has_port",
+    "has_at_symbol",
+    "percent_encoding_count",
+    "percent_encoding_ratio",
+    "is_shortener",
+    "has_punycode",
+    "domain_to_url_len_ratio",
+    "num_dots",
+    "has_https"
+  ],
+  "label": "label",
+  "n_features": 24,
+  "convention": "0 = phishing, 1 = legitimate"
+}

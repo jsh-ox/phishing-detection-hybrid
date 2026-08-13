@@ -1,0 +1,68 @@
+{
+  "created_utc": "2026-08-13T15:13:37.713965+00:00",
+  "seed": 42,
+  "label_convention": "0 = phishing, 1 = legitimate",
+  "per_source": {
+    "phiusiil": {
+      "rows": 235795,
+      "phishing_0": 100945,
+      "legit_1": 134850
+    },
+    "jushnu": {
+      "rows": 450176,
+      "phishing_0": 104438,
+      "legit_1": 345738
+    },
+    "rachana": {
+      "rows": 101218,
+      "phishing_0": 63678,
+      "legit_1": 37540
+    }
+  },
+  "rows_before_dedup": 787189,
+  "conflicting_urls_dropped": 0,
+  "rows_after_dedup": 749050,
+  "n_features": 24,
+  "feature_names": [
+    "url_entropy",
+    "domain_entropy",
+    "vowel_ratio",
+    "consonant_run_max",
+    "digit_run_max",
+    "char_class_transitions",
+    "char_class_transition_ratio",
+    "suspicious_keyword_count",
+    "has_suspicious_keyword",
+    "brand_in_path_not_domain",
+    "hyphen_count_domain",
+    "digit_ratio_domain",
+    "subdomain_depth",
+    "path_depth",
+    "is_ip_host",
+    "has_port",
+    "has_at_symbol",
+    "percent_encoding_count",
+    "percent_encoding_ratio",
+    "is_shortener",
+    "has_punycode",
+    "domain_to_url_len_ratio",
+    "num_dots",
+    "has_https"
+  ],
+  "splits": {
+    "train": 599240,
+    "val": 74905,
+    "test": 74905
+  },
+  "train_label_dist": {
+    "1": 384507,
+    "0": 214733
+  },
+  "legit_only_train_rows": 384507,
+  "source_mix_final": {
+    "jushnu": 449748,
+    "phiusiil": 235370,
+    "rachana": 63932
+  },
+  "note": "legit-only subset = label==1 (legitimate), corrected from prior inverted run"
+}
