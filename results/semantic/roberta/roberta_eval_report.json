@@ -1,0 +1,29 @@
+{
+  "model": "roberta-base",
+  "trained_at_utc": "2026-08-04T13:08:21.784772+00:00",
+  "seed": 42,
+  "config": {
+    "max_length": 512,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "effective_batch": 16,
+    "learning_rate": 2e-05,
+    "epochs": 4,
+    "fp16": true
+  },
+  "test_metrics": {
+    "accuracy": 0.9855,
+    "precision": 0.9854,
+    "recall": 0.9768,
+    "f1": 0.981,
+    "auc_roc": 0.9987,
+    "auc_pr": 0.998,
+    "false_positive_rate": 0.009,
+    "confusion_matrix": {
+      "tn": 1098,
+      "fp": 10,
+      "fn": 16,
+      "tp": 673
+    }
+  }
+}
