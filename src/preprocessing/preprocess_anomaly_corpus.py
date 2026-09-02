@@ -3,21 +3,16 @@ G2 Anomaly Corpus Preprocessing — End-to-End (v2, corrected)
 ============================================================
 Project: Hybrid ML for Phishing Detection
 
-Single reproducible pipeline: three raw URL datasets -> combined, label-aligned
-corpus -> enriched URL features -> scaled, stratified train/val/test splits +
+raw URL datasets -> combined, label-aligned corpus -> enriched URL features -> scaled, stratified train/val/test splits +
 legit-only subset for novelty-detection training.
 
-LABEL CONVENTION (publisher-confirmed, verified across all sources):
+LABEL CONVENTION:
     0 = phishing, 1 = legitimate
 
-This corrects a prior inversion in which label==0 was mistakenly treated as
-legitimate; the anomaly models were consequently trained on phishing URLs as
-"normal". Here the legit-only subset is label==1 (genuinely legitimate).
-
-Sources & their native conventions (verified against the confirmed reference):
-  - PhiUSIIL (Prasad) : columns URL,label      -> 0=phish, 1=legit (as-is)
+Sources & their native conventions:
+  - PhiUSIIL (Prasad) : columns URL,label      -> 0=phish, 1=legit
   - Jushnu            : columns url,type        -> strings mapped phishing->0, legitimate->1
-  - Rachana           : columns URL,ClassLabel  -> 0=phish, 1=legit (verified as-is; NOT flipped)
+  - Rachana           : columns URL,ClassLabel  -> 0=phish, 1=legit
 
 Stages:
   1. Load each source, normalise to (url, label, source) with unified convention
@@ -27,14 +22,6 @@ Stages:
   5. StandardScaler fit on TRAIN only; transform all splits
   6. Carve legit-only (label==1) training subset for autoencoders / Isolation Forest
   7. Save all artefacts + a readiness report
-
-Usage:
-  # Simplest — reads Prasad_v2.csv, Jushnu_K.csv, Rachana_P.csv from data/raw:
-  python preprocess_anomaly_corpus.py
-
-  # Custom locations / filenames:
-  python preprocess_anomaly_corpus.py --raw_dir path/to/raw --output_dir data/processed/G2_v2
-  python preprocess_anomaly_corpus.py --prasad other/Prasad_v2.csv   # override one source
 """
 
 import argparse
@@ -55,17 +42,17 @@ LABEL_CONVENTION = "0 = phishing, 1 = legitimate"
 
 
 # --------------------------------------------------------------------------
-# Stage 1 — source loaders (each normalises to url, label, source)
+# Source loaders
 # --------------------------------------------------------------------------
 def load_prasad(path):
     df = pd.read_csv(path, usecols=["URL", "label"]).rename(columns={"URL": "url"})
-    df["label"] = df["label"].astype(int)              # already 0=phish, 1=legit
+    df["label"] = df["label"].astype(int)
     df["source"] = "phiusiil"
     return df[["url", "label", "source"]]
 
 
 def load_jushnu(path):
-    df = pd.read_csv(path)                              # columns: url, type
+    df = pd.read_csv(path)
     df["label"] = (df["type"].str.strip().str.lower()
                    .map({"phishing": 0, "legitimate": 1}))
     df = df.dropna(subset=["label"])
@@ -76,7 +63,6 @@ def load_jushnu(path):
 
 def load_rachana(path):
     df = pd.read_csv(path).dropna(subset=["ClassLabel"]).rename(columns={"URL": "url"})
-    # verified against the confirmed reference: matches Prasad as-is (NOT inverted)
     df["label"] = df["ClassLabel"].astype(int)
     df["source"] = "rachana"
     return df[["url", "label", "source"]]
@@ -91,7 +77,7 @@ def main(prasad_p, jushnu_p, rachana_p, output_dir):
     report = {"created_utc": datetime.now(timezone.utc).isoformat(),
               "seed": SEED, "label_convention": LABEL_CONVENTION}
 
-    # --- Stage 1-2: combine, align, dedup ---
+    # --- Stage 1-2: combine, align, deduplicate ---
     parts = [load_prasad(prasad_p), load_jushnu(jushnu_p), load_rachana(rachana_p)]
     report["per_source"] = {
         p["source"].iloc[0]: {
@@ -104,40 +90,47 @@ def main(prasad_p, jushnu_p, rachana_p, output_dir):
     combined["url"] = combined["url"].astype(str).str.strip()
     n_raw = len(combined)
 
-    # drop URLs appearing with conflicting labels across sources (ambiguous truth)
+    # drop URLs appearing with conflicting labels
     nun = combined.groupby("url")["label"].transform("nunique")
     n_conflict = int(combined[nun > 1]["url"].nunique())
     combined = combined[nun == 1].drop_duplicates(subset=["url"]).reset_index(drop=True)
+    combined.to_parquet(out / "url_corpus_combined.parquet", index=False)
 
     report["rows_before_dedup"] = n_raw
     report["conflicting_urls_dropped"] = n_conflict
     report["rows_after_dedup"] = len(combined)
 
-    # --- Stage 3: enriched feature extraction (shared extractor) ---
+    # --- Stage 3: feature extraction ---
     feats = pd.DataFrame(
         [extract_enriched_features(u) for u in combined["url"]],
         columns=ENRICHED_FEATURE_NAMES,
     )
+
+    # --- experiment: exclude HTTPS feature ---
+    DROP_FEATURES = ["has_https"]
+    feats = feats.drop(columns=DROP_FEATURES)
+    feature_names = [f for f in ENRICHED_FEATURE_NAMES if f not in DROP_FEATURES]
+
     feats["label"] = combined["label"].values
 
-    # --- Stage 4: stratified 80/10/10 (seed 42) ---
+    # --- Stage 4: stratified 80/10/10 ---
     train, temp = train_test_split(
         feats, test_size=0.20, stratify=feats["label"], random_state=SEED)
     val, test = train_test_split(
         temp, test_size=0.50, stratify=temp["label"], random_state=SEED)
 
     # --- Stage 5: scale (fit on TRAIN features only) ---
-    scaler = StandardScaler().fit(train[ENRICHED_FEATURE_NAMES].values)
+    scaler = StandardScaler().fit(train[feature_names].values)
 
     def scale(part):
         s = part.copy()
-        s[ENRICHED_FEATURE_NAMES] = scaler.transform(part[ENRICHED_FEATURE_NAMES].values)
+        s[feature_names] = scaler.transform(part[feature_names].values)
         return s
 
     train_s, val_s, test_s = scale(train), scale(val), scale(test)
 
     # --- Stage 6: legit-only subset (label==1 = LEGITIMATE) for novelty detection ---
-    legit_only = train_s[train_s["label"] == 1][ENRICHED_FEATURE_NAMES]
+    legit_only = train_s[train_s["label"] == 1][feature_names]
 
     # --- Stage 7: save artefacts ---
     train_s.to_parquet(out / "url_features_train.parquet", index=False)
@@ -147,25 +140,25 @@ def main(prasad_p, jushnu_p, rachana_p, output_dir):
     joblib.dump(scaler, out / "standard_scaler.pkl")
 
     with open(out / "feature_schema.json", "w") as f:
-        json.dump({"features": ENRICHED_FEATURE_NAMES, "label": "label",
-                   "n_features": len(ENRICHED_FEATURE_NAMES),
+        json.dump({"features": feature_names, "label": "label",
+                   "n_features": len(feature_names),
                    "convention": LABEL_CONVENTION}, f, indent=2)
 
     report.update({
-        "n_features": len(ENRICHED_FEATURE_NAMES),
-        "feature_names": ENRICHED_FEATURE_NAMES,
+        "n_features": len(feature_names),
+        "feature_names": feature_names,
         "splits": {"train": len(train), "val": len(val), "test": len(test)},
         "train_label_dist": {int(k): int(v) for k, v in train["label"].value_counts().items()},
         "legit_only_train_rows": len(legit_only),
         "source_mix_final": combined["source"].value_counts().to_dict(),
-        "note": "legit-only subset = label==1 (legitimate), corrected from prior inverted run",
+        "note": "legit-only subset = label==1 (legitimate)",
     })
     with open(out / "g2_readiness_report.json", "w") as f:
         json.dump(report, f, indent=2)
 
     # --- console summary ---
     print("=" * 60)
-    print("G2 ANOMALY CORPUS — PREPROCESSING COMPLETE (v2, corrected labels)")
+    print("G2 ANOMALY CORPUS — PREPROCESSING COMPLETE")
     print("=" * 60)
     for s, v in report["per_source"].items():
         print(f"  {s:<10}: {v['rows']:>8,} rows  ({v['phishing_0']:,} phish / {v['legit_1']:,} legit)")
@@ -174,7 +167,7 @@ def main(prasad_p, jushnu_p, rachana_p, output_dir):
     print(f"  Rows before dedup    : {n_raw:,}")
     print(f"  Conflicting dropped  : {n_conflict:,}")
     print(f"  Rows after dedup     : {len(combined):,}")
-    print(f"  Enriched features    : {len(ENRICHED_FEATURE_NAMES)}")
+    print(f"  Enriched features    : {len(feature_names)}")
     print(f"  Split train/val/test : {len(train):,} / {len(val):,} / {len(test):,}")
     print(f"  Train label dist     : {report['train_label_dist']}  (0=phish, 1=legit)")
     print(f"  Legit-only training  : {len(legit_only):,}  (label==1, genuinely legitimate)")
@@ -193,13 +186,11 @@ if __name__ == "__main__":
                     help="Where to write the prepared corpus (default: data/processed/G2_v2)")
     a = ap.parse_args()
 
-    # Resolve each source: explicit override wins, else default filename under --raw_dir
     raw = Path(a.raw_dir)
     prasad_p  = a.prasad  or str(raw / "Prasad_v2.csv")
     jushnu_p  = a.jushnu  or str(raw / "Jushnu_K.csv")
     rachana_p = a.rachana or str(raw / "Rachana_P.csv")
 
-    # Fail early with a clear message if a source file is missing
     for label, p in [("prasad", prasad_p), ("jushnu", jushnu_p), ("rachana", rachana_p)]:
         if not Path(p).exists():
             raise SystemExit(f"ERROR: {label} file not found at '{p}'. "

@@ -1,0 +1,76 @@
+{
+  "model": "LSTMAutoencoder",
+  "corpus": "G2_v2 raw URLs",
+  "trained_at_utc": "2026-08-14T16:54:16.951690+00:00",
+  "seed": 42,
+  "label_convention": "0=phishing, 1=legitimate; detection target = phishing",
+  "input_representation": "raw URL character sequences",
+  "train_regime": "legitimate-only",
+  "architecture": {
+    "vocab_size": 184,
+    "max_len": 128,
+    "embed_dim": 32,
+    "latent_dim": 64
+  },
+  "training": {
+    "epochs_run": 30,
+    "batch_size": 256,
+    "learning_rate": 0.001
+  },
+  "train_rows": 384507,
+  "reconstruction_error_separation": {
+    "legit_mean": 1.58637,
+    "phish_mean": 4.37131,
+    "separation": 2.78495
+  },
+  "test_metrics_by_strategy": {
+    "f1": {
+      "precision": 0.9675,
+      "recall": 0.915,
+      "f1": 0.9405,
+      "auc_roc": 0.9877,
+      "auc_pr": 0.9846,
+      "false_positive_rate": 0.0171,
+      "confusion_matrix": {
+        "tn": 47239,
+        "fp": 824,
+        "fn": 2282,
+        "tp": 24560
+      },
+      "threshold": 2.781689,
+      "strategy_value": 0.9404
+    },
+    "youden": {
+      "precision": 0.9534,
+      "recall": 0.9277,
+      "f1": 0.9403,
+      "auc_roc": 0.9877,
+      "auc_pr": 0.9846,
+      "false_positive_rate": 0.0253,
+      "confusion_matrix": {
+        "tn": 46845,
+        "fp": 1218,
+        "fn": 1942,
+        "tp": 24900
+      },
+      "threshold": 2.704141,
+      "strategy_value": 0.9026
+    },
+    "fpr": {
+      "precision": 0.8463,
+      "recall": 0.966,
+      "f1": 0.9022,
+      "auc_roc": 0.9877,
+      "auc_pr": 0.9846,
+      "false_positive_rate": 0.098,
+      "confusion_matrix": {
+        "tn": 43354,
+        "fp": 4709,
+        "fn": 913,
+        "tp": 25929
+      },
+      "threshold": 2.396976,
+      "strategy_value": 0.9653
+    }
+  }
+}

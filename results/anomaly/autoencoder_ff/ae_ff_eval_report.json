@@ -1,0 +1,77 @@
+{
+  "model": "FeedforwardAutoencoder",
+  "corpus": "G2_v2",
+  "trained_at_utc": "2026-08-14T13:06:30.880680+00:00",
+  "seed": 42,
+  "label_convention": "0=phishing, 1=legitimate; detection target = phishing",
+  "train_regime": "legitimate-only",
+  "n_features": 24,
+  "architecture": {
+    "encoding_dim": 8,
+    "hidden_dims": [
+      16
+    ],
+    "dropout": 0.0
+  },
+  "training": {
+    "epochs_run": 100,
+    "batch_size": 256,
+    "learning_rate": 0.001
+  },
+  "train_rows": 384507,
+  "reconstruction_error_separation": {
+    "legit_mean": 0.00983,
+    "phish_mean": 1.27654,
+    "separation": 1.26671
+  },
+  "test_metrics_by_strategy": {
+    "f1": {
+      "precision": 0.967,
+      "recall": 0.8591,
+      "f1": 0.9098,
+      "auc_roc": 0.9702,
+      "auc_pr": 0.9654,
+      "false_positive_rate": 0.0164,
+      "confusion_matrix": {
+        "tn": 47275,
+        "fp": 788,
+        "fn": 3782,
+        "tp": 23060
+      },
+      "threshold": 0.070467,
+      "strategy_value": 0.9115
+    },
+    "youden": {
+      "precision": 0.9187,
+      "recall": 0.8948,
+      "f1": 0.9066,
+      "auc_roc": 0.9702,
+      "auc_pr": 0.9654,
+      "false_positive_rate": 0.0442,
+      "confusion_matrix": {
+        "tn": 45937,
+        "fp": 2126,
+        "fn": 2824,
+        "tp": 24018
+      },
+      "threshold": 0.038409,
+      "strategy_value": 0.8548
+    },
+    "fpr": {
+      "precision": 0.8517,
+      "recall": 0.9261,
+      "f1": 0.8874,
+      "auc_roc": 0.9702,
+      "auc_pr": 0.9654,
+      "false_positive_rate": 0.09,
+      "confusion_matrix": {
+        "tn": 43735,
+        "fp": 4328,
+        "fn": 1983,
+        "tp": 24859
+      },
+      "threshold": 0.021302,
+      "strategy_value": 0.9287
+    }
+  }
+}

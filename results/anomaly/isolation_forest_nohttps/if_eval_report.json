@@ -1,0 +1,65 @@
+{
+  "model": "IsolationForest",
+  "corpus": "G2_v2",
+  "trained_at_utc": "2026-09-02T12:28:25.094676+00:00",
+  "seed": 42,
+  "label_convention": "0=phishing, 1=legitimate; detection target = phishing",
+  "train_regime": "Contaminated URLS (mixed legitimate and phishing)",
+  "n_features": 23,
+  "hyperparameters": {
+    "n_estimators": 200,
+    "max_samples": 512,
+    "contamination": "auto"
+  },
+  "train_rows": 599240,
+  "test_metrics_by_strategy": {
+    "f1": {
+      "precision": 0.6842,
+      "recall": 0.6604,
+      "f1": 0.6721,
+      "auc_roc": 0.8109,
+      "auc_pr": 0.7621,
+      "false_positive_rate": 0.1702,
+      "confusion_matrix": {
+        "tn": 39883,
+        "fp": 8180,
+        "fn": 9116,
+        "tp": 17726
+      },
+      "threshold": 0.37592,
+      "strategy_value": 0.6787
+    },
+    "youden": {
+      "precision": 0.6942,
+      "recall": 0.6521,
+      "f1": 0.6725,
+      "auc_roc": 0.8109,
+      "auc_pr": 0.7621,
+      "false_positive_rate": 0.1604,
+      "confusion_matrix": {
+        "tn": 40354,
+        "fp": 7709,
+        "fn": 9339,
+        "tp": 17503
+      },
+      "threshold": 0.377508,
+      "strategy_value": 0.5003
+    },
+    "fpr": {
+      "precision": 0.7752,
+      "recall": 0.5763,
+      "f1": 0.6611,
+      "auc_roc": 0.8109,
+      "auc_pr": 0.7621,
+      "false_positive_rate": 0.0933,
+      "confusion_matrix": {
+        "tn": 43577,
+        "fp": 4486,
+        "fn": 11372,
+        "tp": 15470
+      },
+      "threshold": 0.392547,
+      "strategy_value": 0.5812
+    }
+  }
+}

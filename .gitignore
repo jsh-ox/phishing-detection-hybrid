@@ -19,6 +19,10 @@ data/raw/*
 data/processed/*text*
 data/processed/*semantic*
 
+# LSTM character-sequence data (large, regenerable from the corpus)
+*.npy
+data/processed/G2_v2/lstm_data
+
 # --- Trained model weights / checkpoints: excluded (dual-use, size) ---
 *.pt
 *.pth

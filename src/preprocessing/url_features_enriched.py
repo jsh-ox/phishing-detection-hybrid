@@ -3,14 +3,8 @@ Enriched URL Feature Extractor
 ==============================
 Project: Hybrid ML for Phishing Detection (anomaly layer)
 
-A SINGLE shared feature function computed identically wherever URLs are
-processed (PhiUSIIL training, CEAS evaluation, any future corpus). Using one
-function everywhere guarantees parity by construction - the previous ~95%
-reproduction drift came from having two separate implementations.
-
-DESIGN CONSTRAINT: every feature is computable from the RAW URL STRING ALONE.
-No external lookups (WHOIS, PageRank, reputation) - those are unavailable at
-fusion time when only a URL extracted from an email is known.
+Helper function to extract URL features from raw data.
+Every feature is computable from the plain URL string.
 
 Feature groups:
   - Character/entropy : randomness of the string (algorithmically-generated
@@ -18,8 +12,6 @@ Feature groups:
   - Lexical/keyword   : suspicious tokens, brand-in-path, hyphens, digit ratios
   - Structural/encoding: IP host, port, '@', encoding density, shorteners,
                          punycode/homograph markers, length ratios
-
-All features are numeric so they drop straight into the existing anomaly models.
 """
 
 import math
@@ -28,11 +20,11 @@ from urllib.parse import urlparse
 
 SUSPICIOUS_KEYWORDS = [
     "login", "verify", "secure", "account", "update", "bank", "confirm",
-    "signin", "password", "webscr", "ebayisapi", "paypal", "submit", "click",
+    "signin", "password", "submit", "click",
 ]
 COMMON_BRANDS = [
     "paypal", "apple", "microsoft", "amazon", "google", "facebook", "netflix",
-    "ebay", "instagram", "whatsapp", "linkedin", "dropbox", "chase", "wellsfargo",
+    "ebay", "instagram", "whatsapp", "linkedin", "dropbox", "chase"
 ]
 SHORTENER_HOSTS = {
     "bit.ly", "tinyurl.com", "goo.gl", "t.co", "ow.ly", "is.gd", "buff.ly",
@@ -85,8 +77,7 @@ def extract_enriched_features(url: str) -> dict:
     """Return a dict of enriched, URL-string-only features for one URL."""
     url = str(url) if url is not None else ""
     # Parse defensively - many raw URLs lack a scheme, and some are malformed
-    # (e.g. unbalanced brackets that urlparse rejects as invalid IPv6). A single
-    # bad URL must not halt a 700k-row run, so fall back to empty parse on error.
+    # (e.g. unbalanced brackets that urlparse rejects as invalid IPv6).
     try:
         parsed = urlparse(url if "://" in url else "http://" + url)
         host = parsed.netloc.lower()

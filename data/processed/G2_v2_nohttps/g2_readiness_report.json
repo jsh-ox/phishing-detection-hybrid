@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-08-14T13:37:01.915557+00:00",
+  "created_utc": "2026-09-02T12:25:21.343606+00:00",
   "seed": 42,
   "label_convention": "0 = phishing, 1 = legitimate",
   "per_source": {
@@ -22,7 +22,7 @@
   "rows_before_dedup": 787189,
   "conflicting_urls_dropped": 0,
   "rows_after_dedup": 749050,
-  "n_features": 24,
+  "n_features": 23,
   "feature_names": [
     "url_entropy",
     "domain_entropy",
@@ -46,8 +46,7 @@
     "is_shortener",
     "has_punycode",
     "domain_to_url_len_ratio",
-    "num_dots",
-    "has_https"
+    "num_dots"
   ],
   "splits": {
     "train": 599240,
@@ -64,5 +63,5 @@
     "phiusiil": 235370,
     "rachana": 63932
   },
-  "note": "legit-only subset = label==1 (legitimate), corrected from prior inverted run"
+  "note": "legit-only subset = label==1 (legitimate)"
 }

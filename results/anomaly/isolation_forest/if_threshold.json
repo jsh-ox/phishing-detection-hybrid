@@ -1,0 +1,6 @@
+{
+  "threshold": 0.3421713086729072,
+  "strategy": "f1",
+  "strategy_value": 0.7744,
+  "contamination": "auto"
+}
